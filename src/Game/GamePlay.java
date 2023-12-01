@@ -38,7 +38,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     public void paint(Graphics g) {
 
         //background color
-        g.setColor(Color.YELLOW);
+        g.setColor(new Color(0xA2FF64));
         g.fillRect(1, 1, 692, 592);
 
         map.draw((Graphics2D)g);
@@ -55,26 +55,17 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 
         g.setColor(Color.black);
         g.setFont(new Font("MV Arial", Font.BOLD, 25));
-        g.drawString("Score: " + score, 520, 30);
+        g.drawString("Điểm: " + score, 520, 30);
 
 
-//        if (totalBricks <= 0) { // if all bricks are destroyed then you win
-//            play = false;
-//            ballXdir = 0;
-//            ballYdir = 0;
-//            g.setColor(new Color(0XFF6464));
-//            g.setFont(new Font("MV Arial", Font.BOLD, 30));
-//            g.drawString("You Won, Score: " + score, 190, 300);
-//
-//            g.setFont(new Font("MV Arial", Font.BOLD, 20));
-//            g.drawString("Press Enter to Restart.", 230, 350);
-//        }
         if (totalBricks <= 0) {
             // Level completed, move to the next level
             currentLevel++;
+            System.out.println("tăng level");
             if (currentLevel < 4) {  // You can add more levels if needed
                 map.setLevel(currentLevel);
-                totalBricks = map.map.length * map.map[0].length;
+                totalBricks = map.getTotalBrick();
+                System.out.println(totalBricks);
                 ballposX = 120;
                 ballposY = 350;
                 ballXdir = -2;
@@ -84,12 +75,11 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
                 play = false;
                 ballXdir = 0;
                 ballYdir = 0;
-                g.setColor(new Color(0XFF6464));
+                g.setColor(Color.BLACK);
                 g.setFont(new Font("MV Arial", Font.BOLD, 30));
-                g.drawString("You Won, Score: " + score, 190, 300);
-
+                g.drawString("Chiến Thắng, Số điểm: " + score, 190, 300);
                 g.setFont(new Font("MV Arial", Font.BOLD, 20));
-                g.drawString("Press Enter to Restart.", 230, 350);
+                g.drawString("Nhấn Enter để chơi lại", 230, 350);
             }
         }
         if(ballposY > 570) { // if ball goes below the paddle then you lose
@@ -98,10 +88,10 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
             ballYdir = 0;
             g.setColor(Color.BLACK);
             g.setFont(new Font("MV Arial", Font.BOLD, 30));
-            g.drawString("Game Over, Score: " + score, 190, 300);
+            g.drawString("Bạn đã thua, Số điểm: " + score, 190, 300);
 
             g.setFont(new Font("MV Arial", Font.BOLD, 20));
-            g.drawString("Press Enter to Restart", 230, 350);
+            g.drawString("Nhấn Enter để chơi lại", 230, 350);
 
         }
         g.dispose();
@@ -133,11 +123,13 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
                         if(ballRect.intersects(brickRect) ) {
                             map.setBrickValue(0, i, j);
                             totalBricks--;
+                            System.out.println(totalBricks);
                             score+=5;
 
-                            if(ballposX + 19 <= brickRect.x || ballposX +1 >= brickRect.x + brickRect.width)
+                            if((ballXdir > 0 && ballposX + 20 - ballXdir <= brickRect.x) ||
+                                    (ballXdir < 0 && ballposX + ballXdir >= brickRect.x + brickRect.width)) {
                                 ballXdir = -ballXdir;
-                            else {
+                            } else {
                                 ballYdir = -ballYdir;
                             }
                         }
@@ -207,11 +199,11 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     }
     public void moveRight() { // paddle moves right by 50 pixels
         play = true;
-        playerX += 50;
+        playerX += 65;
     }
     public void moveLeft() { // paddle moves left by 50 pixels
         play = true;
-        playerX -= 50;
+        playerX -= 65;
     }
 
 
@@ -223,4 +215,3 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 
 
 }
-
