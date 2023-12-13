@@ -6,7 +6,7 @@ public class MapGenerator {
     public int map [][];
     public int brickWidth;
     public int brickHeight;
- 
+
 
     // this creates the brick of size 3x7
     public MapGenerator(int row, int col) {
