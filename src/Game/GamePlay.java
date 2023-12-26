@@ -68,8 +68,8 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
                 System.out.println(totalBricks);
                 ballposX = 120;
                 ballposY = 350;
-                ballXdir = -2;
-                ballYdir = -4;
+                ballXdir = -4;
+                ballYdir = -8;
             } else {
                 // All levels completed, you win
                 play = false;
